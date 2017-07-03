@@ -37,8 +37,8 @@ public class Asteroid {
         this.texture = new Texture("asteroid.png");
         this.textureRegion = new TextureRegion(texture);
         this.scale = (float)Math.random();
-        this.vx = (float)Math.random()*200;
-        this.vy = (float)Math.random()*200;
+        this.vx = (float)Math.random()*200-100;
+        this.vy = (float)Math.random()*200-100;
         this.x = Gdx.graphics.getWidth() * (float)Math.random();
         this.y = Gdx.graphics.getHeight() * (float)Math.random();
         this.w = texture.getWidth();
