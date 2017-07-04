@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import javax.swing.*;
-
 /**
  * Created by smeleyka on 30.06.17.
  */
@@ -51,7 +49,6 @@ public class Asteroid {
 
     public void render(SpriteBatch batch) {
         batch.draw(textureRegion, x, y,r,r,w*scale,h*scale,scale,scale,rotate);
-        //batch.draw(textureRegion, x, y,r,r,w*scale,h*scale,scale,scale,1);
     }
 
     public void update(float dt) {

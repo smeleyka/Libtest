@@ -14,6 +14,7 @@ public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
     Asteroid ast;
     Player player;
+    static Bullet bullet;
     final int asteroidCount = 10;
     Asteroid[] astArr;
 
@@ -21,6 +22,7 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
+        bullet = new Bullet();
         player = new Player();
         ast = new Asteroid(200f, 150f, 1f);
         astArr = new Asteroid[asteroidCount];
@@ -44,7 +46,6 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.end();
     }
 
-    //@Override
     public void update() {
         player.update(Gdx.graphics.getDeltaTime());
         ast.update(Gdx.graphics.getDeltaTime());

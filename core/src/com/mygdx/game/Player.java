@@ -4,61 +4,71 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by smeleyka on 03.07.17.
  */
 public class Player {
     static Texture texture;
-    float x=10;
-    float y=10;
-    float acceleration=10;
-    final float maxSpeed = 500;
-    float vx=0;
-    float vy=0;
+    float angle;
+    float rotationSpeed;
+    float enginePower;
+    Vector2 position;
+    Vector2 velocity;
+    Vector2 accel;
+    Vector2 accelx;
+    Vector2 accely;
 
 
     public Player() {
         this.texture = new Texture("player.png");
+        this.position = new Vector2(0, 0);
+        this.velocity = new Vector2(0, 0);
+        this.accel = new Vector2(400, 400);
+        this.accelx = new Vector2(10, 0);
+        this.accely = new Vector2(0, 10);
+        this.angle = 0;
+        this.rotationSpeed = 2.5f;
+        this.enginePower = 250f;
+
     }
 
-    public void render(SpriteBatch batch){
-        batch.draw(texture,x,y);
+    public void render(SpriteBatch batch) {
+        batch.draw(texture, position.x, position.y, texture.getWidth() / 2, texture.getHeight() / 2, texture.getWidth(), texture.getHeight(), 1f, 1f, (float) Math.toDegrees(angle), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+
     }
 
-    public void update(float dt){
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){//UP
-            vy+=acceleration;
+    public void update(float dt) {
+        //accel.set(0,0);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {//UP
+            accel.set(enginePower * (float) Math.cos(angle + Math.PI / 2), enginePower * (float) Math.sin(angle + Math.PI / 2));
+            velocity.add(accel.cpy().scl(dt));
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {//DOWN
 
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){//DOWN
-            vy-=acceleration;
-
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {//LEFT
+            angle -= rotationSpeed * dt;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {//RIGHT
+            angle += rotationSpeed * dt;
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){//LEFT
-            vx+=acceleration;
+
+        if (position.x + texture.getWidth() < 0) position.x = Gdx.graphics.getWidth();
+        if (position.y + texture.getHeight() < 0) position.y = Gdx.graphics.getHeight();
+        if (position.x > Gdx.graphics.getWidth()) position.x = 0 - texture.getWidth();
+        if (position.y > Gdx.graphics.getHeight()) position.y = 0 - texture.getHeight();
+
+        velocity.scl(0.995f);
+        position.add(velocity.cpy().scl(dt));
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            MyGdxGame.bullet.setPosition(position);
 
         }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){//RIGHT
-           vx-=acceleration;
-
-
-        }
-        y+=vy*dt;
-        //y-=vy*dt;
-        x+=vx*dt;
-        //x-=vx*dt;
-
-        if (x>Gdx.graphics.getWidth()) x=0;
-        if (x<0) x=Gdx.graphics.getHeight();
-        if (y>Gdx.graphics.getHeight()) y=0;
-        if (y<0) y=Gdx.graphics.getHeight();
-//        if (vy>maxSpeed) vy=maxSpeed;
-//        if (vy>-1*maxSpeed) vy=-1*maxSpeed;
-//        if (vx>maxSpeed) vx=maxSpeed;
-//        if (vx>-1*maxSpeed) vx=-1*maxSpeed;
 
     }
 }
